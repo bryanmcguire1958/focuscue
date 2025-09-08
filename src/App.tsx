@@ -4,11 +4,13 @@ import { FocalDot } from './components/FocalDot';
 import { ControlsPanel } from './components/ControlsPanel';
 import { Teleprompter } from './components/Teleprompter';
 import { OverlayRoute } from './pages/OverlayRoute';
+import { getVersionConfig, getVersionName } from './lib/version';
 
 function App() {
   const isOverlayRoute = window.location.pathname === '/overlay';
+  const versionConfig = getVersionConfig();
   
-  const [duration, setDuration] = useState(300);
+  const [duration, setDuration] = useState(Math.min(300, versionConfig.maxTimerSeconds));
   const [warnAt, setWarnAt] = useState(60);
   const [panicAt, setPanicAt] = useState(20);
   const [dotSize, setDotSize] = useState(14);
@@ -20,11 +22,18 @@ function App() {
   const [showOverlay, setShowOverlay] = useState(true);
   
   // Teleprompter state
-  const [teleprompterScript, setTeleprompterScript] = useState('Welcome to FocusCue!\nYour presentation timer is ready.\nThe red dot helps with camera focus.\nUse the controls to customize your experience.\nPress Space to start the timer.');
+  const [teleprompterScript, setTeleprompterScript] = useState(() => {
+    // Try to load saved script, fallback to default
+    const saved = localStorage.getItem('focuscue-teleprompter-script');
+    return saved || 'Welcome to FocusCue!\nYour presentation timer is ready.\nThe red dot helps with camera focus.\nUse the controls to customize your experience.\nPress Space to start the timer.';
+  });
   const [teleprompterMode, setTeleprompterMode] = useState<'scroll' | 'step'>('step');
   const [teleprompterFontSize, setTeleprompterFontSize] = useState(24);
   const [teleprompterSpeed, setTeleprompterSpeed] = useState(1.0);
   const [teleprompterActive, setTeleprompterActive] = useState(false);
+  
+  // Master presentation mode state
+  const [isPresentationMode, setIsPresentationMode] = useState(false);
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -60,12 +69,25 @@ function App() {
     setIsRunning(false);
   };
 
+  // Master presentation handlers
+  const handleStartPresentation = () => {
+    setIsRunning(true);
+    setTeleprompterActive(true);
+    setIsPresentationMode(true);
+  };
+
+  const handleStopPresentation = () => {
+    setIsRunning(false);
+    setTeleprompterActive(false);
+    setIsPresentationMode(false);
+  };
+
   if (isOverlayRoute) {
     return <OverlayRoute />;
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4 relative">
       {showOverlay && (
         <>
           <FocalDot 
@@ -120,7 +142,10 @@ function App() {
         onStart={() => setIsRunning(true)}
         onStop={() => setIsRunning(false)}
         onReset={handleReset}
+        onStartPresentation={handleStartPresentation}
+        onStopPresentation={handleStopPresentation}
         isRunning={isRunning}
+        isPresentationMode={isPresentationMode}
       />
       
       <Teleprompter
@@ -141,6 +166,23 @@ function App() {
           </p>
         )}
       </div>
+      
+      {/* Version Badge and Upgrade Button for Free Version */}
+      {!versionConfig.upgradeUrl ? null : (
+        <div className="fixed top-4 right-4 flex items-center gap-3">
+          <span className="px-3 py-1 bg-gray-800 text-yellow-400 text-sm font-semibold rounded-lg">
+            ⚡ Free Version (5 min limit)
+          </span>
+          <a
+            href={versionConfig.upgradeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold rounded-lg transition-all transform hover:scale-105 shadow-lg animate-pulse"
+          >
+            🚀 Upgrade to Premium
+          </a>
+        </div>
+      )}
     </div>
   );
 }

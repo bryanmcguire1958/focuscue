@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { getVersionConfig } from '../lib/version';
 // Updated with X/Y position controls
 
 interface ControlsPanelProps {
@@ -31,7 +32,10 @@ interface ControlsPanelProps {
   onStart: () => void;
   onStop: () => void;
   onReset: () => void;
+  onStartPresentation: () => void;
+  onStopPresentation: () => void;
   isRunning: boolean;
+  isPresentationMode: boolean;
 }
 
 export const ControlsPanel: React.FC<ControlsPanelProps> = ({
@@ -64,9 +68,15 @@ export const ControlsPanel: React.FC<ControlsPanelProps> = ({
   onStart,
   onStop,
   onReset,
-  isRunning
+  onStartPresentation,
+  onStopPresentation,
+  isRunning,
+  isPresentationMode
 }) => {
-  const presets = [60, 180, 300, 600];
+  const versionConfig = getVersionConfig();
+  const presets = versionConfig.maxTimerSeconds >= 600 
+    ? [60, 180, 300, 600] 
+    : [60, 180, 300]; // Limit presets for free version
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -82,14 +92,21 @@ export const ControlsPanel: React.FC<ControlsPanelProps> = ({
       <div className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-300 mb-2">
-            Duration (seconds)
+            Duration (seconds) {versionConfig.maxTimerSeconds < Infinity && (
+              <span className="text-yellow-400 text-xs ml-2">
+                (Max: {versionConfig.maxTimerMinutes} min)
+              </span>
+            )}
           </label>
           <input
             type="number"
             min="1"
-            max="1800"
+            max={versionConfig.maxTimerSeconds}
             value={duration}
-            onChange={(e) => onDurationChange(parseInt(e.target.value) || 300)}
+            onChange={(e) => {
+              const val = parseInt(e.target.value) || 300;
+              onDurationChange(Math.min(val, versionConfig.maxTimerSeconds));
+            }}
             className="w-full px-3 py-2 bg-gray-800 text-white rounded-md border border-gray-700 focus:border-blue-500 focus:outline-none"
           />
           <div className="flex gap-2 mt-2">
@@ -246,6 +263,39 @@ export const ControlsPanel: React.FC<ControlsPanelProps> = ({
                 placeholder="Enter your script here... (Each line on new line for step mode)"
                 className="w-full h-24 px-3 py-2 bg-gray-800 text-white rounded-md border border-gray-700 focus:border-blue-500 focus:outline-none resize-none"
               />
+              <div className="flex gap-2 mt-2">
+                {versionConfig.canSaveScripts ? (
+                  <>
+                    <button
+                      onClick={() => {
+                        localStorage.setItem('focuscue-teleprompter-script', teleprompterScript);
+                        alert('Script saved!');
+                      }}
+                      className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-xs rounded transition-colors"
+                    >
+                      Save Script
+                    </button>
+                    <button
+                      onClick={() => {
+                        const saved = localStorage.getItem('focuscue-teleprompter-script');
+                        if (saved) {
+                          onTeleprompterScriptChange(saved);
+                          alert('Script loaded!');
+                        } else {
+                          alert('No saved script found');
+                        }
+                      }}
+                      className="px-3 py-1 bg-green-600 hover:bg-green-700 text-xs rounded transition-colors"
+                    >
+                      Load Script
+                    </button>
+                  </>
+                ) : (
+                  <span className="text-xs text-yellow-400">
+                    💎 Save/Load available in Premium version
+                  </span>
+                )}
+              </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -297,29 +347,53 @@ export const ControlsPanel: React.FC<ControlsPanelProps> = ({
           </div>
         </div>
 
-        <div className="flex gap-3 pt-4">
-          {!isRunning ? (
-            <button
-              onClick={onStart}
-              className="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors"
-            >
-              Start Timer
-            </button>
-          ) : (
-            <button
-              onClick={onStop}
-              className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors"
-            >
-              Stop Timer
-            </button>
+        <div className="space-y-3 pt-4">
+          {/* Master Presentation Button - only show if both timer duration > 0 and script has content */}
+          {duration > 0 && teleprompterScript.trim() && (
+            <div className="flex gap-3">
+              {!isPresentationMode ? (
+                <button
+                  onClick={onStartPresentation}
+                  className="flex-1 px-4 py-3 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-bold rounded-lg transition-all transform hover:scale-105 shadow-lg"
+                >
+                  🎯 Start Presentation
+                </button>
+              ) : (
+                <button
+                  onClick={onStopPresentation}
+                  className="flex-1 px-4 py-3 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white font-bold rounded-lg transition-all transform hover:scale-105 shadow-lg"
+                >
+                  🛑 Stop Presentation
+                </button>
+              )}
+            </div>
           )}
           
-          <button
-            onClick={onReset}
-            className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors"
-          >
-            Reset
-          </button>
+          {/* Individual Controls */}
+          <div className="flex gap-3">
+            {!isRunning ? (
+              <button
+                onClick={onStart}
+                className="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors"
+              >
+                Start Timer
+              </button>
+            ) : (
+              <button
+                onClick={onStop}
+                className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors"
+              >
+                Stop Timer
+              </button>
+            )}
+            
+            <button
+              onClick={onReset}
+              className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors"
+            >
+              Reset
+            </button>
+          </div>
         </div>
 
         <div className="mt-6 p-4 bg-gray-800 rounded-lg">
