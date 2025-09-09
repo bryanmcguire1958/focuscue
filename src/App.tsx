@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { OverlayTimer } from './components/OverlayTimer';
 import { FocalDot } from './components/FocalDot';
 import { ControlsPanel } from './components/ControlsPanel';
 import { Teleprompter } from './components/Teleprompter';
 import { OverlayRoute } from './pages/OverlayRoute';
-import { getVersionConfig, getVersionName } from './lib/version';
+import { getVersionConfig } from './lib/version';
 
 function App() {
   const isOverlayRoute = window.location.pathname === '/overlay';
@@ -74,6 +74,7 @@ function App() {
     setIsRunning(true);
     setTeleprompterActive(true);
     setIsPresentationMode(true);
+    setShowOverlay(true); // Ensure overlay is visible during presentation
   };
 
   const handleStopPresentation = () => {
@@ -98,8 +99,8 @@ function App() {
           />
           
           <div 
-            className="fixed top-10 left-1/2 transform -translate-x-1/2"
-            style={{ opacity: overlayOpacity }}
+            className="fixed top-8 left-1/2 transform -translate-x-1/2 z-10"
+            style={{ opacity: isPresentationMode ? overlayOpacity : overlayOpacity * 0.6 }}
           >
             <OverlayTimer
               durationSec={duration}
@@ -112,41 +113,55 @@ function App() {
         </>
       )}
       
-      <ControlsPanel
-        duration={duration}
-        warnAt={warnAt}
-        panicAt={panicAt}
-        dotSize={dotSize}
-        dotOpacity={dotOpacity}
-        dotX={dotX}
-        dotY={dotY}
-        overlayOpacity={overlayOpacity}
-        teleprompterScript={teleprompterScript}
-        teleprompterMode={teleprompterMode}
-        teleprompterFontSize={teleprompterFontSize}
-        teleprompterSpeed={teleprompterSpeed}
-        teleprompterActive={teleprompterActive}
-        onDurationChange={setDuration}
-        onWarnAtChange={setWarnAt}
-        onPanicAtChange={setPanicAt}
-        onDotSizeChange={setDotSize}
-        onDotOpacityChange={setDotOpacity}
-        onDotXChange={setDotX}
-        onDotYChange={setDotY}
-        onOverlayOpacityChange={setOverlayOpacity}
-        onTeleprompterScriptChange={setTeleprompterScript}
-        onTeleprompterModeChange={setTeleprompterMode}
-        onTeleprompterFontSizeChange={setTeleprompterFontSize}
-        onTeleprompterSpeedChange={setTeleprompterSpeed}
-        onTeleprompterToggle={() => setTeleprompterActive(!teleprompterActive)}
-        onStart={() => setIsRunning(true)}
-        onStop={() => setIsRunning(false)}
-        onReset={handleReset}
-        onStartPresentation={handleStartPresentation}
-        onStopPresentation={handleStopPresentation}
-        isRunning={isRunning}
-        isPresentationMode={isPresentationMode}
-      />
+      {!isPresentationMode && (
+        <>
+          <ControlsPanel
+            duration={duration}
+            warnAt={warnAt}
+            panicAt={panicAt}
+            dotSize={dotSize}
+            dotOpacity={dotOpacity}
+            dotX={dotX}
+            dotY={dotY}
+            overlayOpacity={overlayOpacity}
+            teleprompterScript={teleprompterScript}
+            teleprompterMode={teleprompterMode}
+            teleprompterFontSize={teleprompterFontSize}
+            teleprompterSpeed={teleprompterSpeed}
+            teleprompterActive={teleprompterActive}
+            onDurationChange={setDuration}
+            onWarnAtChange={setWarnAt}
+            onPanicAtChange={setPanicAt}
+            onDotSizeChange={setDotSize}
+            onDotOpacityChange={setDotOpacity}
+            onDotXChange={setDotX}
+            onDotYChange={setDotY}
+            onOverlayOpacityChange={setOverlayOpacity}
+            onTeleprompterScriptChange={setTeleprompterScript}
+            onTeleprompterModeChange={setTeleprompterMode}
+            onTeleprompterFontSizeChange={setTeleprompterFontSize}
+            onTeleprompterSpeedChange={setTeleprompterSpeed}
+            onTeleprompterToggle={() => setTeleprompterActive(!teleprompterActive)}
+            onStart={() => setIsRunning(true)}
+            onStop={() => setIsRunning(false)}
+            onReset={handleReset}
+            onStartPresentation={handleStartPresentation}
+            onStopPresentation={handleStopPresentation}
+            isRunning={isRunning}
+            isPresentationMode={isPresentationMode}
+          />
+          
+          <div className="fixed bottom-4 left-4 text-gray-500 text-sm">
+            <p>Hotkeys:</p>
+            <p>Space: Start/Stop | R: Reset | F8: Toggle Overlay</p>
+            {teleprompterActive && (
+              <p className="text-blue-400">
+                {teleprompterMode === 'step' ? 'N/P or ↓/↑: Next/Prev Line' : '↓/↑: Manual Scroll'}
+              </p>
+            )}
+          </div>
+        </>
+      )}
       
       <Teleprompter
         mode={teleprompterMode}
@@ -155,34 +170,20 @@ function App() {
         script={teleprompterScript}
         isActive={teleprompterActive}
         onClearScript={() => setTeleprompterScript('')}
+        onHide={() => setTeleprompterActive(false)}
+        resetPosition={isPresentationMode}
       />
       
-      <div className="fixed bottom-4 left-4 text-gray-500 text-sm">
-        <p>Hotkeys:</p>
-        <p>Space: Start/Stop | R: Reset | F8: Toggle Overlay</p>
-        {teleprompterActive && (
-          <p className="text-blue-400">
-            {teleprompterMode === 'step' ? 'N/P or ↓/↑: Next/Prev Line' : '↓/↑: Manual Scroll'}
-          </p>
-        )}
-      </div>
-      
-      {/* Version Badge and Upgrade Button for Free Version */}
-      {!versionConfig.upgradeUrl ? null : (
-        <div className="fixed top-4 right-4 flex items-center gap-3">
-          <span className="px-3 py-1 bg-gray-800 text-yellow-400 text-sm font-semibold rounded-lg">
-            ⚡ Free Version (5 min limit)
-          </span>
-          <a
-            href={versionConfig.upgradeUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold rounded-lg transition-all transform hover:scale-105 shadow-lg animate-pulse"
-          >
-            🚀 Upgrade to Premium
-          </a>
-        </div>
+      {/* Presentation Mode: Stop button */}
+      {isPresentationMode && (
+        <button
+          onClick={handleStopPresentation}
+          className="fixed top-4 left-4 px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg shadow-lg z-50"
+        >
+          ⏹ Stop Presentation
+        </button>
       )}
+      
     </div>
   );
 }

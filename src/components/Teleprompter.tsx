@@ -7,6 +7,8 @@ interface TeleprompterProps {
   script: string;
   isActive: boolean;
   onClearScript?: () => void;
+  onHide?: () => void;
+  resetPosition?: boolean;
 }
 
 export const Teleprompter: React.FC<TeleprompterProps> = ({
@@ -15,14 +17,37 @@ export const Teleprompter: React.FC<TeleprompterProps> = ({
   scrollSpeed,
   script,
   isActive,
-  onClearScript
+  onClearScript,
+  onHide,
+  resetPosition = false
 }) => {
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
   const [scrollPosition, setScrollPosition] = useState(0);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const animationFrameRef = useRef<number>();
+  const animationFrameRef = useRef<number>(0);
   
   const lines = script.split('\n').filter(line => line.trim() !== '');
+
+  // Reset position when activated or resetPosition changes
+  useEffect(() => {
+    if (isActive || resetPosition) {
+      setCurrentLineIndex(0);
+      setScrollPosition(0);
+    }
+  }, [isActive, resetPosition]);
+
+  // Auto-scroll current line into view in step mode
+  useEffect(() => {
+    if (mode === 'step' && isActive) {
+      const currentElement = document.getElementById('current-line');
+      if (currentElement) {
+        currentElement.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'center' 
+        });
+      }
+    }
+  }, [currentLineIndex, mode, isActive]);
 
   // Auto-scroll mode
   useEffect(() => {
@@ -97,6 +122,13 @@ export const Teleprompter: React.FC<TeleprompterProps> = ({
           </span>
         </div>
         <div className="flex gap-2">
+          <button
+            onClick={onHide}
+            className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-sm rounded font-bold"
+            title="Close teleprompter and return to controls"
+          >
+            ✕ Close
+          </button>
           {mode === 'step' && (
             <>
               <button
@@ -150,16 +182,17 @@ export const Teleprompter: React.FC<TeleprompterProps> = ({
             <div className="h-96"></div>
           </div>
         ) : (
-          <div className="h-full flex flex-col justify-center max-w-4xl mx-auto">
+          <div className="max-w-4xl mx-auto pt-8">
             {lines.map((line, index) => (
               <div
                 key={index}
+                id={index === currentLineIndex ? 'current-line' : undefined}
                 className={`mb-6 px-4 transition-all duration-300 ${
                   index === currentLineIndex
-                    ? 'text-yellow-300 font-semibold scale-105'
+                    ? 'text-yellow-300 font-semibold scale-110 bg-gray-800/50 py-3 rounded-lg'
                     : index < currentLineIndex
-                    ? 'text-gray-500 opacity-60'
-                    : 'text-white opacity-80'
+                    ? 'text-gray-500 opacity-50'
+                    : 'text-white opacity-70'
                 }`}
                 style={{ whiteSpace: 'pre-wrap' }}
               >

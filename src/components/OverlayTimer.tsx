@@ -22,9 +22,9 @@ export const OverlayTimer: React.FC<OverlayTimerProps> = ({
 }) => {
   const [remaining, setRemaining] = useState(durationSec);
   const [localRunning, setLocalRunning] = useState(isRunning);
-  const animationFrameRef = useRef<number>();
-  const lastTimeRef = useRef<number>();
-  const startTimeRef = useRef<number>();
+  const animationFrameRef = useRef<number>(0);
+  const lastTimeRef = useRef<number>(0);
+  const startTimeRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     setRemaining(durationSec);

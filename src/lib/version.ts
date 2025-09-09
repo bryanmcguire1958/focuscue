@@ -3,7 +3,7 @@
 
 export const isPremium = () => {
   // Check if running in Tauri (desktop app)
-  return typeof window !== 'undefined' && window.__TAURI__ !== undefined;
+  return typeof window !== 'undefined' && (window as any).__TAURI__ !== undefined;
 };
 
 export const VERSION_CONFIG = {

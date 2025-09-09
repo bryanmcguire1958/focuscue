@@ -4,7 +4,7 @@ import { FocalDot } from '../components/FocalDot';
 import { parseOverlayParams } from '../lib/obsParams';
 
 export const OverlayRoute: React.FC = () => {
-  const [params, setParams] = useState(parseOverlayParams(new URLSearchParams(window.location.search)));
+  const [params] = useState(parseOverlayParams(new URLSearchParams(window.location.search)));
   const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {

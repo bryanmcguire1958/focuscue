@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FocusCue - Professional Presentation Timer & Teleprompter</title>
+    <meta name="description" content="Never lose track during presentations. FocusCue provides countdown timers, teleprompter, and visual cues for content creators and presenters.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-950 text-white">
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-gray-900/95 backdrop-blur-sm z-50 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <span class="text-2xl">🎯</span>
+                    <span class="text-xl font-bold">FocusCue</span>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <a href="#features" class="hover:text-purple-400 transition">Features</a>
+                    <a href="#faq" class="hover:text-purple-400 transition">FAQ</a>
+                    <a href="https://focus-cue.com/app" class="px-4 py-2 hero-gradient hover:opacity-90 rounded-lg font-semibold transition">Launch App</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="inline-block px-4 py-2 bg-purple-900/30 rounded-full text-purple-400 text-sm mb-6">
+                <i class="fas fa-star"></i> Used by 1,000+ Content Creators
+            </div>
+            <h1 class="text-5xl md:text-7xl font-bold mb-6">
+                Never Lose Track During<br>
+                <span class="gradient-text">Your Best Presentations</span>
+            </h1>
+            <p class="text-xl text-gray-400 mb-8 max-w-3xl mx-auto">
+                Professional countdown timer, teleprompter, and visual cues designed for content creators, streamers, and presenters. Stay on time, every time.
+            </p>
+            <div class="flex justify-center mb-12">
+                <a href="https://focus-cue.com/app" class="px-8 py-4 hero-gradient hover:opacity-90 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-lg">
+                    <i class="fas fa-play mr-2"></i> Launch Free App
+                </a>
+            </div>
+            
+            <!-- Demo Screenshot -->
+            <div class="relative max-w-5xl mx-auto float-animation">
+                <div class="absolute inset-0 hero-gradient opacity-20 blur-3xl"></div>
+                <img src="focuscue.gif" alt="FocusCue Interface Demo" class="relative rounded-2xl shadow-2xl border border-gray-800 mx-auto">
+                <div class="absolute -top-4 -right-4 px-3 py-1 bg-green-500 text-white rounded-full text-sm font-semibold">
+                    <i class="fas fa-check mr-1"></i> OBS Ready
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-20 px-4 bg-gray-900/50">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-4">How It Works</h2>
+            <p class="text-center text-gray-400 mb-16">Get started in 3 simple steps</p>
+            
+            <div class="grid md:grid-cols-3 gap-12">
+                <!-- Step 1 -->
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl font-bold">1</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Set Your Timer & Script</h3>
+                    <p class="text-gray-400">Choose your presentation duration (up to 5 minutes free) and add your teleprompter script. Adjust settings like warning thresholds and focal dot position.</p>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl font-bold">2</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Click "Start Presentation"</h3>
+                    <p class="text-gray-400">One button starts both your countdown timer and teleprompter. The focal dot appears to help maintain eye contact with your camera or audience.</p>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl font-bold">3</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Present Like a Pro</h3>
+                    <p class="text-gray-400">Watch the timer change from green to amber to red as time passes. Your script scrolls automatically or step-by-step. Stay on track, every time.</p>
+                </div>
+            </div>
+            
+            <!-- Visual Flow -->
+            <div class="mt-16 text-center">
+                <div class="inline-flex items-center space-x-4 text-gray-400">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                        <span class="text-sm">Start (Green)</span>
+                    </div>
+                    <i class="fas fa-arrow-right"></i>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                        <span class="text-sm">Warning (Amber)</span>
+                    </div>
+                    <i class="fas fa-arrow-right"></i>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                        <span class="text-sm">Time Up (Red)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 px-4 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12">Everything You Need to Present Like a Pro</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-gray-900 p-6 rounded-xl border border-gray-800 hover:border-purple-600 transition">
+                    <div class="text-4xl mb-4">⏱️</div>
+                    <h3 class="text-xl font-bold mb-2">Smart Countdown Timer</h3>
+                    <p class="text-gray-400">Color-coded thresholds (green → amber → red) keep you aware of time without checking the clock.</p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="bg-gray-900 p-6 rounded-xl border border-gray-800 hover:border-purple-600 transition">
+                    <div class="text-4xl mb-4">📝</div>
+                    <h3 class="text-xl font-bold mb-2">Built-in Teleprompter</h3>
+                    <p class="text-gray-400">Smooth scrolling or step-by-step mode. Never forget your talking points again.</p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="bg-gray-900 p-6 rounded-xl border border-gray-800 hover:border-purple-600 transition">
+                    <div class="text-4xl mb-4">🔴</div>
+                    <h3 class="text-xl font-bold mb-2">Focal Dot System</h3>
+                    <p class="text-gray-400">Adjustable red dot helps maintain eye contact with your camera for engaging presentations.</p>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="bg-gray-900 p-6 rounded-xl border border-gray-800 hover:border-purple-600 transition">
+                    <div class="text-4xl mb-4">🎬</div>
+                    <h3 class="text-xl font-bold mb-2">OBS Integration</h3>
+                    <p class="text-gray-400">Add as browser source to OBS Studio. Perfect for live streaming and recordings.</p>
+                </div>
+                
+                <!-- Feature 5 -->
+                <div class="bg-gray-900 p-6 rounded-xl border border-gray-800 hover:border-purple-600 transition">
+                    <div class="text-4xl mb-4">⌨️</div>
+                    <h3 class="text-xl font-bold mb-2">Global Hotkeys</h3>
+                    <p class="text-gray-400">Control everything with keyboard shortcuts. Start, stop, reset without touching the mouse.</p>
+                </div>
+                
+                <!-- Feature 6 -->
+                <div class="bg-gray-900 p-6 rounded-xl border border-gray-800 hover:border-purple-600 transition">
+                    <div class="text-4xl mb-4">💾</div>
+                    <h3 class="text-xl font-bold mb-2">Save Presets</h3>
+                    <p class="text-gray-400">Save your scripts and timer settings. Load them instantly for consistent presentations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Testimonials -->
+    <section class="py-20 px-4 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12">Loved by Content Creators</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-900 p-6 rounded-xl border border-gray-800">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-4">"FocusCue transformed my presentations. The timer keeps me on track and the teleprompter is a lifesaver!"</p>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center mr-3">CW</div>
+                        <div>
+                            <p class="font-semibold">Carl Webber</p>
+                            <p class="text-sm text-gray-400">YouTuber</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-900 p-6 rounded-xl border border-gray-800">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-4">"The OBS integration is seamless. My streams look so much more professional now!"</p>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center mr-3">SM</div>
+                        <div>
+                            <p class="font-semibold">Sarah Miller</p>
+                            <p class="text-sm text-gray-400">Twitch Streamer</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-900 p-6 rounded-xl border border-gray-800">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-4">"Worth every penny! The focal dot feature alone improved my eye contact dramatically."</p>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center mr-3">MJ</div>
+                        <div>
+                            <p class="font-semibold">Mike Johnson</p>
+                            <p class="text-sm text-gray-400">Course Creator</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-20 px-4 border-t border-gray-800">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+            <div class="space-y-6">
+                <details class="bg-gray-900 rounded-lg border border-gray-800 p-6 group">
+                    <summary class="font-semibold cursor-pointer flex justify-between items-center">
+                        What features does FocusCue include?
+                        <i class="fas fa-chevron-down group-open:rotate-180 transition"></i>
+                    </summary>
+                    <p class="text-gray-400 mt-4">FocusCue is completely free and includes professional countdown timers (up to 5 minutes), teleprompter with auto-scroll and step modes, adjustable focus dot, OBS browser source integration, keyboard shortcuts, and auto-saving settings. Perfect for content creators and presenters.</p>
+                </details>
+                
+                <details class="bg-gray-900 rounded-lg border border-gray-800 p-6 group">
+                    <summary class="font-semibold cursor-pointer flex justify-between items-center">
+                        Is FocusCue really free?
+                        <i class="fas fa-chevron-down group-open:rotate-180 transition"></i>
+                    </summary>
+                    <p class="text-gray-400 mt-4">Yes! FocusCue is completely free to use. No subscriptions, no hidden fees, no sign-up required. Just open your browser and start presenting professionally.</p>
+                </details>
+                
+                <details class="bg-gray-900 rounded-lg border border-gray-800 p-6 group">
+                    <summary class="font-semibold cursor-pointer flex justify-between items-center">
+                        Does it work with OBS Studio?
+                        <i class="fas fa-chevron-down group-open:rotate-180 transition"></i>
+                    </summary>
+                    <p class="text-gray-400 mt-4">Absolutely! FocusCue works perfectly with OBS Studio. Simply add it as a browser source using the provided URL and enable transparent background.</p>
+                </details>
+                
+                <details class="bg-gray-900 rounded-lg border border-gray-800 p-6 group">
+                    <summary class="font-semibold cursor-pointer flex justify-between items-center">
+                        What operating systems are supported?
+                        <i class="fas fa-chevron-down group-open:rotate-180 transition"></i>
+                    </summary>
+                    <p class="text-gray-400 mt-4">FocusCue is web-based and works on any OS with a modern browser - Windows, Mac, Linux, ChromeOS, and even mobile devices.</p>
+                </details>
+                
+                <details class="bg-gray-900 rounded-lg border border-gray-800 p-6 group">
+                    <summary class="font-semibold cursor-pointer flex justify-between items-center">
+                        Do I need to create an account?
+                        <i class="fas fa-chevron-down group-open:rotate-180 transition"></i>
+                    </summary>
+                    <p class="text-gray-400 mt-4">No account needed! FocusCue works directly in your browser. Your settings and teleprompter scripts are saved locally on your device for privacy and convenience.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 px-4 border-t border-gray-800">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-4">Ready to Level Up Your Presentations?</h2>
+            <p class="text-xl text-gray-400 mb-8">Join thousands of content creators using FocusCue</p>
+            <div class="flex justify-center">
+                <a href="https://focus-cue.com/app" class="px-8 py-4 hero-gradient hover:opacity-90 rounded-lg text-lg font-semibold transition transform hover:scale-105 shadow-lg">
+                    <i class="fas fa-play mr-2"></i> Launch FocusCue Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 px-4 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <span class="text-2xl">🎯</span>
+                    <span class="text-xl font-bold">FocusCue</span>
+                </div>
+                <div class="flex space-x-6 text-gray-400">
+                    <a href="mailto:support@focus-cue.com" class="hover:text-white transition">Support</a>
+                    <a href="/privacy.html" class="hover:text-white transition">Privacy</a>
+                    <a href="/terms.html" class="hover:text-white transition">Terms</a>
+                    <a href="https://twitter.com/focuscue" class="hover:text-white transition">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="text-center text-gray-500 text-sm mt-8">
+                © 2025 FocusCue. Made with ❤️ for presenters everywhere.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookieConsent" class="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-700 p-4 z-50 transform translate-y-full transition-transform duration-300">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div class="flex-1">
+                <h3 class="text-white font-semibold mb-2">🍪 We value your privacy</h3>
+                <p class="text-gray-300 text-sm">
+                    We use essential cookies for functionality and optional analytics cookies to improve our service. 
+                    All data stays in your browser - we don't track you across the web.
+                    <a href="/privacy.html" class="text-purple-400 hover:text-purple-300 underline ml-1">Learn more</a>
+                </p>
+            </div>
+            <div class="flex gap-3">
+                <button onclick="acceptEssentialCookies()" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition text-sm">
+                    Essential Only
+                </button>
+                <button onclick="acceptAllCookies()" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition text-sm">
+                    Accept All
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cookie Consent Script -->
+    <script>
+        // Check if user has already made a cookie choice
+        function checkCookieConsent() {
+            const consent = localStorage.getItem('focuscue-cookie-consent');
+            if (!consent) {
+                // Show banner after a short delay
+                setTimeout(() => {
+                    document.getElementById('cookieConsent').classList.remove('translate-y-full');
+                }, 1000);
+            } else if (consent === 'all') {
+                // Enable analytics if user previously accepted all
+                enableAnalytics();
+            }
+        }
+
+        function acceptEssentialCookies() {
+            localStorage.setItem('focuscue-cookie-consent', 'essential');
+            hideCookieBanner();
+        }
+
+        function acceptAllCookies() {
+            localStorage.setItem('focuscue-cookie-consent', 'all');
+            enableAnalytics();
+            hideCookieBanner();
+        }
+
+        function hideCookieBanner() {
+            document.getElementById('cookieConsent').classList.add('translate-y-full');
+        }
+
+        function enableAnalytics() {
+            // Add analytics code here if needed in the future
+            // For now, we're not using any analytics to keep it privacy-focused
+            console.log('Analytics enabled (placeholder for future implementation)');
+        }
+
+        // Initialize cookie consent check on page load
+        document.addEventListener('DOMContentLoaded', checkCookieConsent);
+    </script>
+</body>
+</html>
